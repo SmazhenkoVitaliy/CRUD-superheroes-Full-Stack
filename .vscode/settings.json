@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "crud superheroes",
+            "database": "CRUD_superheroes",
+            "username": "postgres",
+            "password": "1q2w3e"
+        }
+    ]
+}
