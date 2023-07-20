@@ -1,5 +1,6 @@
 const {Router} = require('express');
-
+const SuperheroController = require('../controllers/superhero.controller');
+const {validateSuperhero} = require('../middlewares/superhero.mw')
 
 
 
@@ -7,7 +8,7 @@ const {Router} = require('express');
 
 const superheroRouter = Router();
 
-superheroRouter.post('/',);
+superheroRouter.post('/', validateSuperhero, SuperheroController.createSuperhero);
 
 
 module.exports = superheroRouter;
