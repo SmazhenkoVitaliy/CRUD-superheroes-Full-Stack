@@ -1,4 +1,5 @@
-const {Superhero} = require('../models')
+const {Superhero} = require('../models');
+const SuperheroError = require('../errors/superhero.error')
 
 
 module.exports.createSuperhero = async(req,res,next) =>{
@@ -19,7 +20,35 @@ module.exports.findAllSuperheroes = async(req, res, next) =>{
             ...pagination
         });
         return res.status(200).send(superheroes)
-    } catch(err) {
-        next(err)
+    } catch(error) {
+        next(error)
+    }
+}
+
+module.exports.findOneSuperhero = async(req, res, next) =>{
+    try{
+        const{superheroInstance} = req;
+        return res.status(200).send(superheroInstance);
+    } catch(error) {
+        next(error)
+    }
+}
+
+module.exports.deleteOneSuperhero = async(req, res, next) =>{
+    try{
+        const{params:{superheroId}} = req;
+        const rowCounts = await Superhero.destroy({
+            where:{
+                id:superheroId
+            }
+        });
+        if(rowCounts) {
+            return res.status(200).send(`Superhero deleted`)
+        } else{
+            throw new SuperheroError('Superhero not found!');
+        }
+        
+    } catch(error) {
+        next(error)
     }
 }
