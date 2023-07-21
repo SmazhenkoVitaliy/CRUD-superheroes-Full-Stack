@@ -52,3 +52,13 @@ module.exports.deleteOneSuperhero = async(req, res, next) =>{
         next(error)
     }
 }
+
+module.exports.updateSuperhero = async(req, res, next) =>{
+    try{
+        const{superheroInstance, body} = req;
+        const updatedSuperhero = await superheroInstance.update(body);
+        return res.status(200).send(updatedSuperhero);
+    } catch(error) {
+        next(error)
+    }
+}

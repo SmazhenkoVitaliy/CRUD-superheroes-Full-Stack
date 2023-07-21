@@ -11,8 +11,9 @@ const superheroRouter = Router();
 
 superheroRouter.post('/', validateSuperhero, SuperheroController.createSuperhero);
 superheroRouter.get('/', pagination, SuperheroController.findAllSuperheroes);
-superheroRouter.get('/:superheroId',getSuperheroInstance, SuperheroController.findOneSuperhero)
-superheroRouter.delete('/:superheroId', SuperheroController.deleteOneSuperhero)
+superheroRouter.get('/:superheroId',getSuperheroInstance, SuperheroController.findOneSuperhero);
+superheroRouter.delete('/:superheroId', SuperheroController.deleteOneSuperhero);
+superheroRouter.put('/:superheroId', getSuperheroInstance, SuperheroController.updateSuperhero )
 
 
 module.exports = superheroRouter;
