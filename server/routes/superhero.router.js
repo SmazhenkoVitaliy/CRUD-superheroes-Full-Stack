@@ -1,7 +1,8 @@
 const {Router} = require('express');
 const SuperheroController = require('../controllers/superhero.controller');
 const {validateSuperhero, getSuperheroInstance} = require('../middlewares/superhero.mw');
-const pagination = require('../middlewares/pagination.mw')
+const pagination = require('../middlewares/pagination.mw');
+const {upload} = require('../middlewares/uploadImage.mw')
 
 
 
@@ -13,7 +14,8 @@ superheroRouter.post('/', validateSuperhero, SuperheroController.createSuperhero
 superheroRouter.get('/', pagination, SuperheroController.findAllSuperheroes);
 superheroRouter.get('/:superheroId',getSuperheroInstance, SuperheroController.findOneSuperhero);
 superheroRouter.delete('/:superheroId', SuperheroController.deleteOneSuperhero);
-superheroRouter.put('/:superheroId', getSuperheroInstance, SuperheroController.updateSuperhero )
+superheroRouter.put('/:superheroId', getSuperheroInstance, SuperheroController.updateSuperhero );
+superheroRouter.post('/:superheroId', upload, SuperheroController.addImage)
 
 
 module.exports = superheroRouter;
