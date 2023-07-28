@@ -6,6 +6,9 @@ module.exports.createSuperhero = async(req,res,next) =>{
     try{
         const{body} = req;
         const createdSuperhero = await Superhero.create(body);
+        if(req.file){
+            next()
+        }
         return res.status(201).send(createdSuperhero);
     } catch(error) {
         next(error)

@@ -10,7 +10,7 @@ const {upload} = require('../middlewares/uploadImage.mw')
 
 const superheroRouter = Router();
 
-superheroRouter.post('/', validateSuperhero, SuperheroController.createSuperhero);
+superheroRouter.post('/', validateSuperhero,upload, SuperheroController.createSuperhero,SuperheroController.addImage);
 superheroRouter.get('/', pagination, SuperheroController.findAllSuperheroes);
 superheroRouter.get('/:superheroId',getSuperheroInstance, SuperheroController.findOneSuperhero);
 superheroRouter.delete('/:superheroId', SuperheroController.deleteOneSuperhero);
