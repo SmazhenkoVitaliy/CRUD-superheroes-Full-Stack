@@ -1,11 +1,10 @@
 const {Superhero, Image} = require('../models');
-const SuperheroError = require('../errors/superhero.error')
+const SuperheroError = require('../errors/superhero.error');
 
 
 module.exports.createSuperhero = async(req,res,next) =>{
     try{
         const{body} = req;
-        console.log(body)
         const createdSuperhero = await Superhero.create(body);
         return res.status(201).send(createdSuperhero);
     } catch(error) {
@@ -57,6 +56,9 @@ module.exports.updateSuperhero = async(req, res, next) =>{
     try{
         const{superheroInstance, body} = req;
         const updatedSuperhero = await superheroInstance.update(body);
+        if(req.file){
+            next()
+        }
         return res.status(200).send(updatedSuperhero);
     } catch(error) {
         next(error)
@@ -66,7 +68,7 @@ module.exports.updateSuperhero = async(req, res, next) =>{
 module.exports.addImage = async(req,res,next) =>{
     try{
         const{params:{superheroId}, file:{filename}} = req;
-        const [rowCount,[updatedSuperhero]] = await Image.create({
+        const updatedSuperhero = await Image.create({
             imagePath: filename,
             superheroId,
             returning:true
