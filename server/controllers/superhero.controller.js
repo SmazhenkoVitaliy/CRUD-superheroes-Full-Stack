@@ -7,9 +7,14 @@ module.exports.createSuperhero = async(req,res,next) =>{
         const{body} = req;
         const createdSuperhero = await Superhero.create(body);
         if(req.file){
-            next()
+            const updatedSuperhero = await Image.create({
+                imagePath: req.file.filename,
+                superheroId: createdSuperhero.id,
+                returning:true
+            });
+            return res.status(201).send(updatedSuperhero);
         }
-        return res.status(201).send(createdSuperhero);
+        return res.status(201).send({data:createdSuperhero});
     } catch(error) {
         next(error)
     }
@@ -21,7 +26,7 @@ module.exports.findAllSuperheroes = async(req, res, next) =>{
         const superheroes = await Superhero.findAll({
             ...pagination
         });
-        return res.status(200).send(superheroes)
+        return res.status(200).send({data:superheroes})
     } catch(error) {
         next(error)
     }
@@ -30,7 +35,7 @@ module.exports.findAllSuperheroes = async(req, res, next) =>{
 module.exports.findOneSuperhero = async(req, res, next) =>{
     try{
         const{superheroInstance} = req;
-        return res.status(200).send(superheroInstance);
+        return res.status(200).send({data:superheroInstance});
     } catch(error) {
         next(error)
     }
@@ -45,7 +50,7 @@ module.exports.deleteOneSuperhero = async(req, res, next) =>{
             }
         });
         if(rowCounts) {
-            return res.status(200).send(`Superhero deleted`)
+            return res.status(200).send({data:`Superhero deleted`})
         } else{
             throw new SuperheroError('Superhero not found!');
         }
@@ -60,9 +65,14 @@ module.exports.updateSuperhero = async(req, res, next) =>{
         const{superheroInstance, body} = req;
         const updatedSuperhero = await superheroInstance.update(body);
         if(req.file){
-            next()
+            const superheroWithImage = await Image.create({
+                imagePath: req.file.filename,
+                superheroId: updatedSuperhero.id,
+                returning:true
+            });
+            return res.status(200).send({data:superheroWithImage});
         }
-        return res.status(200).send(updatedSuperhero);
+        return res.status(200).send({data:updatedSuperhero});
     } catch(error) {
         next(error)
     }
@@ -76,7 +86,7 @@ module.exports.addImage = async(req,res,next) =>{
             superheroId,
             returning:true
         });
-        return res.status(200).send(updatedSuperhero);
+        return res.status(200).send({data:updatedSuperhero});
     } catch(error) {
         next(error)
     }

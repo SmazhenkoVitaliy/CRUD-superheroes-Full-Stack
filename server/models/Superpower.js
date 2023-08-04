@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     powerName:{
       type: DataTypes.STRING,
       unique: true,
+      allowNull:false,
       validate: {
         notEmpty:true,
         notNull: true
